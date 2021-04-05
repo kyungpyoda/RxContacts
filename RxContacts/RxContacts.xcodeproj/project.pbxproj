@@ -12,6 +12,8 @@
 		D4F909D3261AD7D6005A2DD1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F909D2261AD7D6005A2DD1 /* SceneDelegate.swift */; };
 		D4F909DA261AD7D7005A2DD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4F909D9261AD7D7005A2DD1 /* Assets.xcassets */; };
 		D4F909DD261AD7D7005A2DD1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4F909DB261AD7D7005A2DD1 /* LaunchScreen.storyboard */; };
+		D4F90A09261AE36C005A2DD1 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F90A08261AE36C005A2DD1 /* RootViewController.swift */; };
+		D4F90A0D261AE471005A2DD1 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F90A0C261AE471005A2DD1 /* Coordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		D4F909D9261AD7D7005A2DD1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4F909DC261AD7D7005A2DD1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4F909DE261AD7D7005A2DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4F90A08261AE36C005A2DD1 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		D4F90A0C261AE471005A2DD1 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,8 @@
 				D4F909D9261AD7D7005A2DD1 /* Assets.xcassets */,
 				D4F909DB261AD7D7005A2DD1 /* LaunchScreen.storyboard */,
 				D4F909DE261AD7D7005A2DD1 /* Info.plist */,
+				D4F90A0C261AE471005A2DD1 /* Coordinator.swift */,
+				D4F90A08261AE36C005A2DD1 /* RootViewController.swift */,
 			);
 			path = RxContacts;
 			sourceTree = "<group>";
@@ -198,8 +204,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4F90A0D261AE471005A2DD1 /* Coordinator.swift in Sources */,
 				D4F909D1261AD7D6005A2DD1 /* AppDelegate.swift in Sources */,
 				D4F909D3261AD7D6005A2DD1 /* SceneDelegate.swift in Sources */,
+				D4F90A09261AE36C005A2DD1 /* RootViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
