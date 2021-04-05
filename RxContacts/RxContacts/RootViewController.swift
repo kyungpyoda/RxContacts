@@ -6,9 +6,24 @@
 //
 
 import UIKit
+import SnapKit
 
 class RootViewController: UIViewController {
+    
+    // MARK: Properties
+    
+    // MARK: Views
+    private lazy var rightBarButton: UIBarButtonItem = {
+        return UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(touchedAddContact)
+        )
+    }()
+    private lazy var tableView = UITableView()
+    private lazy var searchController = UISearchController()
 
+    // MARK: Initialize
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
@@ -19,7 +34,25 @@ class RootViewController: UIViewController {
     }
     
     private func setUpUI() {
-        view.backgroundColor = .systemGray
+        title = "Contacts"
+        view.backgroundColor = .systemBackground
+        
+        self.navigationItem.rightBarButtonItem = self.rightBarButton
+        self.navigationItem.searchController = self.searchController
+        
+        self.view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.left.equalTo(view)
+            make.right.equalTo(view)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+        
+    }
+    
+    // MARK: Methods
+    @objc private func touchedAddContact(sender: Any) {
+        print("TODO: ADD")
     }
     
 }
