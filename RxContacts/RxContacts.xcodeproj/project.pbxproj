@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		199D05BC49871B6035E09393 /* Pods_RxContacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EB814169A814591BD081DE4 /* Pods_RxContacts.framework */; };
+		D4F45F11261BE5260029CE15 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F45F10261BE5260029CE15 /* Contact.swift */; };
 		D4F45F16261BE9890029CE15 /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F45F15261BE9890029CE15 /* ContactTableViewCell.swift */; };
 		D4F909D1261AD7D6005A2DD1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F909D0261AD7D6005A2DD1 /* AppDelegate.swift */; };
 		D4F909D3261AD7D6005A2DD1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F909D2261AD7D6005A2DD1 /* SceneDelegate.swift */; };
@@ -21,6 +22,7 @@
 		5EB814169A814591BD081DE4 /* Pods_RxContacts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxContacts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FBCB72210724F9F1749B0F8 /* Pods-RxContacts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxContacts.debug.xcconfig"; path = "Target Support Files/Pods-RxContacts/Pods-RxContacts.debug.xcconfig"; sourceTree = "<group>"; };
 		B328914DA9FFC57BA7E97714 /* Pods-RxContacts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxContacts.release.xcconfig"; path = "Target Support Files/Pods-RxContacts/Pods-RxContacts.release.xcconfig"; sourceTree = "<group>"; };
+		D4F45F10261BE5260029CE15 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		D4F45F15261BE9890029CE15 /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		D4F909CD261AD7D6005A2DD1 /* RxContacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxContacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F909D0261AD7D6005A2DD1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -44,6 +46,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D4F45F0F261BE51F0029CE15 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D4F45F10261BE5260029CE15 /* Contact.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D4F45F14261BE94E0029CE15 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -81,6 +91,7 @@
 				D4F90A0C261AE471005A2DD1 /* Coordinator.swift */,
 				D4F90A08261AE36C005A2DD1 /* RootViewController.swift */,
 				D4F45F14261BE94E0029CE15 /* View */,
+				D4F45F0F261BE51F0029CE15 /* Model */,
 			);
 			path = RxContacts;
 			sourceTree = "<group>";
@@ -218,6 +229,7 @@
 				D4F45F16261BE9890029CE15 /* ContactTableViewCell.swift in Sources */,
 				D4F90A0D261AE471005A2DD1 /* Coordinator.swift in Sources */,
 				D4F909D1261AD7D6005A2DD1 /* AppDelegate.swift in Sources */,
+				D4F45F11261BE5260029CE15 /* Contact.swift in Sources */,
 				D4F909D3261AD7D6005A2DD1 /* SceneDelegate.swift in Sources */,
 				D4F90A09261AE36C005A2DD1 /* RootViewController.swift in Sources */,
 			);
