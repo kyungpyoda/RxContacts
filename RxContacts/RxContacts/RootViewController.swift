@@ -39,6 +39,7 @@ class RootViewController: UIViewController {
         
         self.navigationItem.rightBarButtonItem = self.rightBarButton
         self.navigationItem.searchController = self.searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
         
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
