@@ -10,8 +10,9 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import Then
 
-class RootViewController: UIViewController {
+final class RootViewController: UIViewController {
     
     // MARK: Properties
     private var disposeBag = DisposeBag()
@@ -32,8 +33,10 @@ class RootViewController: UIViewController {
     
     // MARK: Views
     private let addContactButton = UIButton(type: .contactAdd)
-    private lazy var tableView = UITableView()
-    private lazy var searchController = UISearchController()
+    private let tableView = UITableView().then {
+        $0.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.reuseIdentifier)
+    }
+    private let searchController = UISearchController()
 
     // MARK: Initialize
     override func viewDidLoad() {
@@ -42,45 +45,43 @@ class RootViewController: UIViewController {
     }
     
     private func setUp() {
-        setUpUI()
         bind()
+        setUpUI()
     }
     
     private func setUpUI() {
         title = "Contacts"
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
+        view.backgroundColor = .systemBlue
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addContactButton)
         self.navigationItem.searchController = self.searchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
-        
+
         self.view.addSubview(tableView)
-        tableView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.left.equalToSuperview()
-            make.right.equalToSuperview()
-            make.bottom.equalToSuperview()
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
-        tableView.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.identifier)
     }
     
     private func bind() {
         self.addContactButton.rx.tap
-            .bind { [weak self] in
-                self?.touchedAddContact()
-            }
+            .subscribe(onNext: { [unowned self] in
+                self.items.append(Contact(fullName: "피자"))
+                self.filteredItems.onNext(self.items)
+            })
             .disposed(by: disposeBag)
         
         self.searchController.searchBar.rx.text
             .orEmpty
-            .debounce(.milliseconds(200), scheduler: MainScheduler.instance)
+            .throttle(.milliseconds(200), latest: true, scheduler: MainScheduler.instance)
             .bind { [weak self] searchQuery in
                 self?.filteredItems.onNext(self?.searchItems(with: searchQuery) ?? []) // 검색어로 필터링
             }
             .disposed(by: disposeBag)
         
         let dataSource = RxTableViewSectionedReloadDataSource<ContactSection> { (dataSource, tableView, indexPath, item) -> UITableViewCell in
-            let cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.identifier, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: ContactTableViewCell.reuseIdentifier, for: indexPath)
             cell.textLabel?.text = "\(item.fullName)"
             return cell
         }
@@ -100,11 +101,6 @@ class RootViewController: UIViewController {
     }
     
     // MARK: Methods
-    private func touchedAddContact() {
-        items.append(Contact(fullName: "피자"))
-        filteredItems.onNext(items)
-    }
-    
     private func searchItems(with query: String = "") -> [Contact] {
         return items.filter {
             return $0.fullName.hasPrefix(query)

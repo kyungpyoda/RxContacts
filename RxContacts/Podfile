@@ -11,4 +11,5 @@ target 'RxContacts' do
   pod 'RxDataSources', '~> 4'
   pod 'SnapKit', '5.0.1'
   pod 'ReactorKit', '~> 2'
+  pod 'Then'
 end
