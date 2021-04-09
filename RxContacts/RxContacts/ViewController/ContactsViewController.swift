@@ -31,7 +31,9 @@ final class ContactsViewController: UIViewController, View {
     }
     
     // MARK: Views
-    private let searchController = UISearchController()
+    private let searchController = UISearchController().then {
+        $0.searchBar.placeholder = "Search"
+    }
     private let addContactButton = UIButton(type: .contactAdd)
     private let tableView = UITableView().then {
         $0.register(ContactTableViewCell.self, forCellReuseIdentifier: ContactTableViewCell.reuseIdentifier)
@@ -59,7 +61,6 @@ final class ContactsViewController: UIViewController, View {
     private func setUpUI() {
         title = "Contacts"
         view.backgroundColor = .white
-        view.backgroundColor = .systemBlue
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addContactButton)
         self.navigationItem.searchController = self.searchController
@@ -67,21 +68,38 @@ final class ContactsViewController: UIViewController, View {
 
         self.view.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            $0.leading.equalTo(self.view.safeAreaLayoutGuide)
+            $0.trailing.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
     
     // MARK: Binding
     func bind(reactor: ContactsViewReactor) {
+//        self.addContactButton.rx.tap
+//            .do(onNext:  { [weak self] in
+//                self?.searchController.searchBar.text = ""
+//            })
+//            .map { Reactor.Action.add(Contact(fullName: "피자")) }
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
         self.addContactButton.rx.tap
-            .map { Reactor.Action.add(Contact(fullName: "피자")) }
-            .bind(to: reactor.action)
+            .map { _ in
+                reactor.reactorForAddContact()
+            }
+            .subscribe(onNext: { [weak self] reactor in
+                let destination = AddContactViewController(reactor: reactor)
+                let navigationController = UINavigationController(rootViewController: destination)
+                self?.present(navigationController, animated: true, completion: nil)
+            })
             .disposed(by: disposeBag)
         
         self.searchController.searchBar.rx.text
             .orEmpty
+            .distinctUntilChanged()
             .throttle(.milliseconds(200), latest: true, scheduler: MainScheduler.instance)
-            .map { Reactor.Action.updateQuery($0) }
+            .map { Reactor.Action.fetch($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -89,6 +107,8 @@ final class ContactsViewController: UIViewController, View {
             .map { $0.sections }
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+        
     }
     
 }
