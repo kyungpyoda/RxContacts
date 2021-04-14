@@ -80,12 +80,3 @@ final class ContactsViewReactor: Reactor {
         return AddContactViewReactor(provider: self.provider)
     }
 }
-
-/*
- permission 요청 ContactsManager init 될 때
- ServiceProviderType
- items -> ContactsManager
- 처음에 view  item load 미리?
- Reactor의 state에 대해 좀 더 알아볼것
- reactor가 init 될 때 fetch하도록
- */
