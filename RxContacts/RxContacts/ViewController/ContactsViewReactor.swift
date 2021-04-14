@@ -11,73 +11,53 @@ import ReactorKit
 final class ContactsViewReactor: Reactor {
     
     enum Action {
-        case updateQuery(String?)
+        case fetch(String)
         case add(Contact)
     }
     
     enum Mutation {
-        case setQuery(String?)
-        case setSections
-        case addNewItem(Contact)
+        case setSections([Contact], String)
     }
     
     struct State {
         var query: String?
-        var items: [Contact] = []
         var sections: [ContactSection] = []
     }
     
     let initialState: State
     
-    private let dummy: [Contact] = [
-        Contact(fullName: "abc"),
-        Contact(fullName: "apple"),
-        Contact(fullName: "accept"),
-        Contact(fullName: "aws"),
-        Contact(fullName: "bbq"),
-        Contact(fullName: "bbc"),
-        Contact(fullName: "bad"),
-        Contact(fullName: "cd"),
-        Contact(fullName: "cable"),
-        Contact(fullName: "홍경표"),
-        Contact(fullName: "김애플"),
-    ]
+    var provider: ServiceProviderType
     
-    init() {
+    init(provider: ServiceProviderType) {
         self.initialState = State(
-            query: "",
-            items: dummy,
             sections: []
         )
+        self.provider = provider
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .updateQuery(let query):
-            return Observable.concat([
-                Observable.just(Mutation.setQuery(query)),
-                Observable.just(Mutation.setSections),
-            ])
+        case .fetch(let query):
+            return self.provider.contactsService.items
+                .flatMapLatest{ Observable.just(Mutation.setSections($0, query)) }
+        
         case .add(let newItem):
-            return Observable.concat([
-                Observable.just(Mutation.addNewItem(newItem)),
-                Observable.just(Mutation.setSections),
-            ])
+            return self.provider.contactsService.addContact(for: newItem)
+                .flatMap({ _ in Observable.empty()})
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
+        
         switch mutation {
-        case .addNewItem(let newItem):
-            newState.items.append(newItem)
-        case .setQuery(let query):
-            newState.query = query
-        case .setSections:
-            let filtered = filter(items: currentState.items, with: currentState.query)
+        case let .setSections(items, query):
+            let filtered = filter(items: items, with: query)
             let sections = splitToSections(with: filtered)
+            newState.query = query
             newState.sections = sections
         }
+        
         return newState
     }
     
@@ -94,5 +74,9 @@ final class ContactsViewReactor: Reactor {
         return dict.sorted(by: ({ $0.key < $1.key })).map { section in
             ContactSection(header: section.key, items: section.value.sorted(by: { $0.fullName < $1.fullName }))
         }
+    }
+    
+    func reactorForAddContact() -> AddContactViewReactor {
+        return AddContactViewReactor(provider: self.provider)
     }
 }
