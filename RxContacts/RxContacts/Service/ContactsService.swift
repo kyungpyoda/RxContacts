@@ -9,16 +9,11 @@ import Foundation
 import Contacts
 import RxSwift
 
-enum ContactsEvent {
-    case fetch
-}
-
 protocol ContactsServiceType {
     var provider: ServiceProviderType { get }
     func fetchContacts() -> Void
     func addContact(for newItem: Contact) -> Observable<Void>
     var items: BehaviorSubject<[Contact]> { get }
-    var event: PublishSubject<ContactsEvent> { get }
 }
 
 final class ContactsService: ContactsServiceType {
@@ -26,7 +21,6 @@ final class ContactsService: ContactsServiceType {
     unowned let provider: ServiceProviderType
     private let store: CNContactStore
     let items = BehaviorSubject<[Contact]>(value: [])
-    let event = PublishSubject<ContactsEvent>()
     
     init(provider: ServiceProviderType) {
         self.provider = provider
@@ -68,6 +62,6 @@ final class ContactsService: ContactsServiceType {
         } catch {
             print(error.localizedDescription)
         }
-        return .empty()
+        return .just(())
     }
 }
